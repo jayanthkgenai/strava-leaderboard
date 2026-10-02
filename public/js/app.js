@@ -104,6 +104,7 @@ async function init() {
   window.App.athlete = data.athlete;
 
   // Show app shell
+  document.getElementById('app').style.display = 'flex';
   document.getElementById('app').classList.add('visible');
 
   // Set nav user info

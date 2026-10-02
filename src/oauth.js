@@ -48,7 +48,14 @@ router.get('/callback', async (req, res) => {
     };
     req.session.tokens = { access_token, refresh_token, expires_at };
 
-    res.redirect('/dashboard');
+    // Save session explicitly before redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.redirect('/?error=session_failed');
+      }
+      res.redirect('/dashboard');
+    });
   } catch (err) {
     console.error('OAuth callback error:', err.response?.data || err.message);
     res.redirect('/?error=auth_failed');
