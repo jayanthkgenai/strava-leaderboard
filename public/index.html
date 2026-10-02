@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StravaBoard — Multi-discipline Leaderboard</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏅</text></svg>" />
+</head>
+<body>
+
+  <!-- ── Landing (logged out) ──────────────────────────────── -->
+  <div id="landing" class="landing" style="display:none">
+    <div class="landing-logo">🏅</div>
+    <h1>Strava<span>Board</span></h1>
+    <p>A shared leaderboard for your crew — running, cycling, swimming, gym and more. All in one place.</p>
+    <div class="features">
+      <span class="feature-chip">🏃 Running</span>
+      <span class="feature-chip">🚴 Cycling</span>
+      <span class="feature-chip">🏊 Swimming</span>
+      <span class="feature-chip">🏋️ Gym</span>
+      <span class="feature-chip">🥾 Hiking</span>
+      <span class="feature-chip">+ more</span>
+    </div>
+    <a href="/auth/login" class="btn-strava">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+      </svg>
+      Connect with Strava
+    </a>
+    <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--muted)">
+      Your data is fetched live from Strava. We only store your weekly scores.
+    </p>
+  </div>
+
+  <!-- ── App Shell (logged in) ─────────────────────────────── -->
+  <div id="app">
+    <nav>
+      <div class="nav-brand">🏅 StravaBoard</div>
+      <div class="nav-links">
+        <button class="nav-link active" data-page="dashboard">Dashboard</button>
+        <button class="nav-link" data-page="leaderboard">Leaderboard</button>
+      </div>
+      <div class="nav-user">
+        <img id="nav-avatar" class="nav-avatar" src="" alt="" />
+        <span id="nav-name"></span>
+        <a href="/auth/logout" class="btn-logout">Log out</a>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ── Dashboard Page ─────────────────────────────── -->
+      <div id="page-dashboard" class="page active">
+
+        <div id="profile-header" class="profile-header">
+          <img id="profile-avatar" class="profile-avatar" src="" alt="" />
+          <div>
+            <div id="profile-name" class="profile-name">Loading...</div>
+            <div id="profile-loc" class="profile-loc"></div>
+          </div>
+        </div>
+
+        <!-- YTD Stats -->
+        <div class="section-header">
+          <div class="section-title">Year to Date</div>
+        </div>
+        <div class="stats-grid" id="ytd-stats">
+          <div class="stat-card skeleton" style="height:90px"></div>
+          <div class="stat-card skeleton" style="height:90px"></div>
+          <div class="stat-card skeleton" style="height:90px"></div>
+          <div class="stat-card skeleton" style="height:90px"></div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="section-header" style="margin-top:1.5rem">
+          <div class="section-title">Recent Activities</div>
+        </div>
+        <div id="recent-activities" class="activity-list">
+          <div class="stat-card skeleton" style="height:64px"></div>
+          <div class="stat-card skeleton" style="height:64px"></div>
+          <div class="stat-card skeleton" style="height:64px"></div>
+        </div>
+      </div>
+
+      <!-- ── Leaderboard Page ───────────────────────────── -->
+      <div id="page-leaderboard" class="page">
+
+        <div class="sync-bar">
+          <span id="sync-status">Sync your score to appear on the leaderboard</span>
+          <button class="btn-sync" id="btn-sync">⚡ Sync my score</button>
+        </div>
+
+        <div class="lb-controls">
+          <div class="toggle-group" id="period-toggle">
+            <button class="toggle-btn active" data-period="weekly">This Week</button>
+            <button class="toggle-btn" data-period="monthly">This Month</button>
+          </div>
+          <div class="toggle-group" id="sort-toggle">
+            <button class="toggle-btn active" data-sort="points">Points</button>
+            <button class="toggle-btn" data-sort="distance">Distance</button>
+            <button class="toggle-btn" data-sort="elevation">Elevation</button>
+            <button class="toggle-btn" data-sort="activities">Activities</button>
+          </div>
+        </div>
+
+        <div id="leaderboard-container">
+          <div class="empty-state">
+            <div class="icon">🏆</div>
+            <div>Loading leaderboard...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/leaderboard.js"></script>
+</body>
+</html>
