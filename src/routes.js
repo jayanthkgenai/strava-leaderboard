@@ -48,18 +48,20 @@ router.get('/api/recent', requireAuth, async (req, res) => {
 
 /**
  * POST /api/leaderboard/sync
- * Fetches the current user's weekly+monthly activities,
- * scores them, and saves to Redis.
+ * Fetches weekly, monthly, and all-time (since Oct 1 2026) activities,
+ * scores them, and saves to Redis with TTL until Dec 31 2026.
  */
 router.post('/api/leaderboard/sync', requireAuth, async (req, res) => {
   try {
-    const [weekly, monthly] = await Promise.all([
+    const [weekly, monthly, allTime] = await Promise.all([
       strava.getWeeklyActivities(req.session),
       strava.getMonthlyActivities(req.session),
+      strava.getAllTimeActivities(req.session),
     ]);
 
-    const weeklyStats = summarizeActivities(weekly);
+    const weeklyStats  = summarizeActivities(weekly);
     const monthlyStats = summarizeActivities(monthly);
+    const allTimeStats = summarizeActivities(allTime);
 
     const entry = {
       athleteId: req.session.athlete.id,
@@ -69,6 +71,7 @@ router.post('/api/leaderboard/sync', requireAuth, async (req, res) => {
       updatedAt: Date.now(),
       weekly: weeklyStats,
       monthly: monthlyStats,
+      alltime: allTimeStats,
     };
 
     await redis.saveUserEntry(req.session.athlete.id, entry);
@@ -80,12 +83,13 @@ router.post('/api/leaderboard/sync', requireAuth, async (req, res) => {
 });
 
 /**
- * GET /api/leaderboard?period=weekly|monthly&sort=points|distance|elevation|activities
+ * GET /api/leaderboard?period=weekly|monthly|alltime&sort=points|distance|elevation|activities
  * Returns all users sorted by chosen metric
  */
 router.get('/api/leaderboard', requireAuth, async (req, res) => {
   try {
-    const period = req.query.period === 'monthly' ? 'monthly' : 'weekly';
+    const validPeriods = ['weekly', 'monthly', 'alltime'];
+    const period = validPeriods.includes(req.query.period) ? req.query.period : 'weekly';
     const sort = req.query.sort || 'points';
 
     const entries = await redis.getAllEntries();

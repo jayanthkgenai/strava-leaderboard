@@ -117,6 +117,16 @@ async function getRecentActivities(session) {
   return res.data;
 }
 
+/**
+ * Get all activities since app launch (Oct 1, 2026) — for all-time leaderboard
+ */
+async function getAllTimeActivities(session) {
+  // App launch date — Oct 1, 2026
+  const launchDate = new Date('2026-10-01T00:00:00Z');
+  const now = new Date();
+  return getActivities(session, Math.floor(launchDate.getTime() / 1000), Math.floor(now.getTime() / 1000));
+}
+
 module.exports = {
   ensureFreshToken,
   getAthlete,
@@ -125,4 +135,5 @@ module.exports = {
   getWeeklyActivities,
   getMonthlyActivities,
   getRecentActivities,
+  getAllTimeActivities,
 };

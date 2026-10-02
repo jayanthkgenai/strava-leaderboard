@@ -7,8 +7,12 @@ const axios = require('axios');
 const UPSTASH_URL = process.env.UPSTASH_REDIS_REST_URL;
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-// TTL for leaderboard entries: 8 days (so stale users auto-expire)
-const ENTRY_TTL_SECONDS = 8 * 24 * 60 * 60;
+// TTL until Dec 31, 2026 (calculated at runtime)
+function getTTLSeconds() {
+  const expiry = new Date('2026-12-31T23:59:59Z');
+  const now = new Date();
+  return Math.max(Math.floor((expiry - now) / 1000), 86400); // min 1 day
+}
 
 async function redisCommand(...args) {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) {
@@ -23,12 +27,12 @@ async function redisCommand(...args) {
 }
 
 /**
- * Save a user's leaderboard entry
+ * Save a user's leaderboard entry, preserving existing allTime stats
  * Key: leaderboard:user:<athleteId>
  */
 async function saveUserEntry(athleteId, data) {
   const key = `leaderboard:user:${athleteId}`;
-  await redisCommand('SET', key, JSON.stringify(data), 'EX', ENTRY_TTL_SECONDS);
+  await redisCommand('SET', key, JSON.stringify(data), 'EX', getTTLSeconds());
 }
 
 /**
@@ -62,18 +66,10 @@ async function deleteUserEntry(athleteId) {
   await redisCommand('DEL', key);
 }
 
-/**
- * Refresh TTL for a user (called on each login/visit)
- */
-async function refreshTTL(athleteId) {
-  const key = `leaderboard:user:${athleteId}`;
-  await redisCommand('EXPIRE', key, ENTRY_TTL_SECONDS);
-}
-
 module.exports = {
   saveUserEntry,
   getUserEntry,
   getAllEntries,
   deleteUserEntry,
-  refreshTTL,
+  getTTLSeconds,
 };
