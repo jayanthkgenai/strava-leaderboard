@@ -19,8 +19,8 @@
       <span class="feature-chip">🚴 Cycling</span>
       <span class="feature-chip">🏊 Swimming</span>
       <span class="feature-chip">🏋️ Gym</span>
-      <span class="feature-chip">🥾 Hiking</span>
-      <span class="feature-chip">+ more</span>
+      <span class="feature-chip">🏳️ YPCO</span>
+      <span class="feature-chip">🔥 Roasts</span>
     </div>
     <a href="/auth/login" class="btn-strava">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -40,6 +40,9 @@
       <div class="nav-links">
         <button class="nav-link active" data-page="dashboard">Dashboard</button>
         <button class="nav-link" data-page="leaderboard">Leaderboard</button>
+        <button class="nav-link" data-page="ypco">🏳️ YPCO</button>
+        <button class="nav-link" data-page="roast">🔥 Roast</button>
+        <button class="nav-link" data-page="events">📅 Events</button>
       </div>
       <div class="nav-user">
         <img id="nav-avatar" class="nav-avatar" src="" alt="" />
@@ -49,9 +52,9 @@
     </nav>
 
     <main>
-      <!-- ── Dashboard Page ─────────────────────────────── -->
-      <div id="page-dashboard" class="page active">
 
+      <!-- ── Dashboard Page ──────────────────────────────── -->
+      <div id="page-dashboard" class="page active">
         <div id="profile-header" class="profile-header">
           <img id="profile-avatar" class="profile-avatar" src="" alt="" />
           <div>
@@ -60,7 +63,6 @@
           </div>
         </div>
 
-        <!-- YTD Stats -->
         <div class="section-header">
           <div class="section-title">Year to Date</div>
         </div>
@@ -71,7 +73,6 @@
           <div class="stat-card skeleton" style="height:90px"></div>
         </div>
 
-        <!-- Recent Activities -->
         <div class="section-header" style="margin-top:1.5rem">
           <div class="section-title">Recent Activities</div>
         </div>
@@ -82,14 +83,12 @@
         </div>
       </div>
 
-      <!-- ── Leaderboard Page ───────────────────────────── -->
+      <!-- ── Leaderboard Page ─────────────────────────────── -->
       <div id="page-leaderboard" class="page">
-
         <div class="sync-bar">
-          <span id="sync-status">Sync your score — fetches this week, this month & all-time (Oct–Dec 2026)</span>
+          <span id="sync-status">Sync your score — fetches this week, this month &amp; all-time (Oct–Dec 2026)</span>
           <button class="btn-sync" id="btn-sync">⚡ Sync my score</button>
         </div>
-
         <div class="lb-controls">
           <div class="toggle-group" id="period-toggle">
             <button class="toggle-btn active" data-period="weekly">This Week</button>
@@ -103,7 +102,6 @@
             <button class="toggle-btn" data-sort="activities">Activities</button>
           </div>
         </div>
-
         <div id="leaderboard-container">
           <div class="empty-state">
             <div class="icon">🏆</div>
@@ -111,6 +109,129 @@
           </div>
         </div>
       </div>
+
+      <!-- ── YPCO Shame Wall Page ─────────────────────────── -->
+      <div id="page-ypco" class="page">
+        <div class="page-hero ypco-hero">
+          <div>
+            <h2 class="page-title">🏳️ YPCO Wall of Shame</h2>
+            <p class="page-subtitle">You Please Carry On — for those who bailed on the group 😤</p>
+          </div>
+          <button class="btn-strava-sm" id="btn-show-ypco-form">🏳️ I'm a YPCO today</button>
+        </div>
+
+        <!-- YPCO declaration form -->
+        <div id="ypco-form" class="form-card" style="display:none">
+          <div class="form-title">🏳️ Declare your YPCO</div>
+          <div class="form-row">
+            <label>What did you bail on?</label>
+            <input type="text" id="ypco-event" placeholder="e.g. Sunday morning group run, Cycling at Nandi Hills..."
+              maxlength="100" class="form-input" />
+          </div>
+          <div class="form-row">
+            <label>Your excuse (be honest 😂)</label>
+            <input type="text" id="ypco-reason" placeholder="e.g. Alarm didn't ring, Felt lazy, Dog ate my shoes..."
+              maxlength="200" class="form-input" />
+          </div>
+          <button class="btn-strava-sm orange" id="btn-declare-ypco">🏳️ Declare YPCO</button>
+        </div>
+
+        <!-- Wall -->
+        <div id="ypco-wall" class="ypco-wall">
+          <div class="stat-card skeleton" style="height:180px"></div>
+          <div class="stat-card skeleton" style="height:180px"></div>
+        </div>
+      </div>
+
+      <!-- ── Roast My Workouts Page ───────────────────────── -->
+      <div id="page-roast" class="page">
+        <div class="page-hero roast-hero">
+          <div>
+            <h2 class="page-title">🔥 Roast My Workouts</h2>
+            <p class="page-subtitle">Let the algorithm destroy your training ego 😂</p>
+          </div>
+        </div>
+
+        <div class="roast-controls">
+          <div class="toggle-group" id="roast-period-toggle">
+            <button class="toggle-btn active" data-period="week">This Week</button>
+            <button class="toggle-btn" data-period="month">This Month</button>
+          </div>
+          <button class="btn-strava-sm orange" id="btn-roast-me">🔥 Roast my workouts</button>
+        </div>
+
+        <div id="roast-stats"></div>
+        <div id="roast-results" class="roast-results">
+          <div class="empty-state">
+            <div class="icon">🔥</div>
+            <div>Hit the button and prepare to be roasted</div>
+          </div>
+        </div>
+
+        <div id="roast-share-row" class="roast-share-row" style="display:none">
+          <button class="btn-strava-sm" id="btn-share-roast">📤 Share my roast</button>
+        </div>
+      </div>
+
+      <!-- ── Events Board Page ────────────────────────────── -->
+      <div id="page-events" class="page">
+        <div class="page-hero events-hero">
+          <div>
+            <h2 class="page-title">📅 Upcoming Events</h2>
+            <p class="page-subtitle">Races, rides, swims and more — share with the crew</p>
+          </div>
+          <button class="btn-strava-sm" id="btn-show-add-event">+ Add Event</button>
+        </div>
+
+        <!-- Add event form -->
+        <div id="add-event-form" class="form-card" style="display:none">
+          <div class="form-title">📅 Add an Event</div>
+          <div class="form-grid">
+            <div class="form-row">
+              <label>Event Name *</label>
+              <input type="text" id="event-title" placeholder="e.g. Wipro Bengaluru Marathon 2027"
+                maxlength="100" class="form-input" />
+            </div>
+            <div class="form-row">
+              <label>Date *</label>
+              <input type="date" id="event-date" class="form-input" />
+            </div>
+            <div class="form-row">
+              <label>Location</label>
+              <input type="text" id="event-location" placeholder="e.g. Bangalore, Karnataka"
+                maxlength="100" class="form-input" />
+            </div>
+            <div class="form-row">
+              <label>Discipline</label>
+              <select id="event-discipline" class="form-input">
+                <option value="Run">🏃 Run</option>
+                <option value="Ride">🚴 Ride</option>
+                <option value="Swim">🏊 Swim</option>
+                <option value="Triathlon">🏅 Triathlon</option>
+                <option value="Multi">🏅 Multi-sport</option>
+                <option value="Other">🎯 Other</option>
+              </select>
+            </div>
+            <div class="form-row" style="grid-column:1/-1">
+              <label>Registration / Info Link</label>
+              <input type="url" id="event-url" placeholder="https://..."
+                maxlength="300" class="form-input" />
+            </div>
+            <div class="form-row" style="grid-column:1/-1">
+              <label>Description (optional)</label>
+              <input type="text" id="event-desc" placeholder="Any details for the group..."
+                maxlength="300" class="form-input" />
+            </div>
+          </div>
+          <button class="btn-strava-sm orange" id="btn-add-event">📅 Add Event</button>
+        </div>
+
+        <div id="events-list" class="events-list">
+          <div class="stat-card skeleton" style="height:160px"></div>
+          <div class="stat-card skeleton" style="height:160px"></div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -120,5 +241,8 @@
   <script src="/js/app.js"></script>
   <script src="/js/dashboard.js"></script>
   <script src="/js/leaderboard.js"></script>
+  <script src="/js/ypco.js"></script>
+  <script src="/js/roast.js"></script>
+  <script src="/js/events.js"></script>
 </body>
 </html>

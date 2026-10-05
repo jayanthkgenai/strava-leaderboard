@@ -67,6 +67,7 @@ async function deleteUserEntry(athleteId) {
 }
 
 module.exports = {
+  redisCommand,
   saveUserEntry,
   getUserEntry,
   getAllEntries,

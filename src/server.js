@@ -5,6 +5,9 @@ const path = require('path');
 
 const oauthRouter = require('./oauth');
 const apiRouter = require('./routes');
+const ypcoRouter = require('./ypco');
+const roastRouter = require('./roast');
+const eventsRouter = require('./events');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +36,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 // ── Routes ────────────────────────────────────────────────────
 app.use('/auth', oauthRouter);
 app.use('/', apiRouter);
+app.use('/', ypcoRouter);
+app.use('/', roastRouter);
+app.use('/', eventsRouter);
 
 // SPA fallback — serve index.html for all non-API routes
 app.get('/dashboard', (req, res) => {
@@ -40,6 +46,14 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.get('/leaderboard', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+app.get('/ypco', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+app.get('/events', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
