@@ -785,3 +785,34 @@ select.form-input { cursor: pointer; }
   color: var(--muted);
   margin-top: 0.25rem;
 }
+
+/* ── Excuse Chips ─────────────────────────────────────────── */
+.excuse-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.excuse-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+.excuse-chip:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+.excuse-chip.selected {
+  background: rgba(252, 76, 2, 0.15);
+  border-color: var(--orange);
+  color: var(--orange);
+  font-weight: 600;
+  transform: scale(1.03);
+}

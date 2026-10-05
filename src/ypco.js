@@ -22,9 +22,9 @@ function requireAuth(req, res, next) {
  */
 router.post('/api/ypco', requireAuth, async (req, res) => {
   try {
-    const { reason, event } = req.body; // reason: why they bailed, event: what they skipped
+    const { reason, event, excuseId } = req.body;
     const athlete = req.session.athlete;
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().split('T')[0];
     const key = `ypco:${today}:${athlete.id}`;
 
     // Check if already YPCO'd today
@@ -38,11 +38,12 @@ router.post('/api/ypco', requireAuth, async (req, res) => {
       name: athlete.name,
       avatar: athlete.avatar,
       reason: reason || 'No excuse given 🤷',
+      excuseId: excuseId || 'other',
       event: event || 'Unknown workout',
       timestamp: Date.now(),
       date: today,
-      reactions: {},  // emoji → count
-      roasts: [],     // array of roast messages from others
+      reactions: {},
+      roasts: [],
     };
 
     await redis.redisCommand('SET', key, JSON.stringify(entry), 'EX', YPCO_TTL);

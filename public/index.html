@@ -128,12 +128,18 @@
             <input type="text" id="ypco-event" placeholder="e.g. Sunday morning group run, Cycling at Nandi Hills..."
               maxlength="100" class="form-input" />
           </div>
-          <div class="form-row">
-            <label>Your excuse (be honest 😂)</label>
-            <input type="text" id="ypco-reason" placeholder="e.g. Alarm didn't ring, Felt lazy, Dog ate my shoes..."
+          <div class="form-row" style="margin-top:0.75rem">
+            <label>Pick your excuse 👇</label>
+            <div class="excuse-chips" id="excuse-chips">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+          <div id="ypco-freetext-row" class="form-row" style="display:none;margin-top:0.5rem">
+            <label>Tell us more (you owe us that much 😂)</label>
+            <input type="text" id="ypco-freetext" placeholder="Be honest..."
               maxlength="200" class="form-input" />
           </div>
-          <button class="btn-strava-sm orange" id="btn-declare-ypco">🏳️ Declare YPCO</button>
+          <button class="btn-strava-sm orange" id="btn-declare-ypco" style="margin-top:1rem">🏳️ Declare YPCO</button>
         </div>
 
         <!-- Wall -->

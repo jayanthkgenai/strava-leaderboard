@@ -4,7 +4,75 @@
 
 const YPCO_EMOJIS = ['😂', '🤣', '😤', '🫣', '💀', '🙈', '👎', '🏳️'];
 
-const YPCO_AUTO_ROASTS = [
+// ── Excuse options ────────────────────────────────────────────
+const YPCO_EXCUSES = [
+  { id: 'sick',     label: '🤒 Not feeling well',              icon: '🤒' },
+  { id: 'poop',     label: '💩 Poop issues',                   icon: '💩' },
+  { id: 'dinner',   label: '🍖 Last night heavy dinner',       icon: '🍖' },
+  { id: 'function', label: '🏠 Surprise function at home',     icon: '🏠' },
+  { id: 'bike',     label: '🚲 Bike issue / Bubble bathing',   icon: '🚲' },
+  { id: 'niggle',   label: '🦵 Niggle in body parts',         icon: '🦵' },
+  { id: 'other',    label: '✍️ Other (type below)',            icon: '✍️' },
+];
+
+// ── Reason-specific roast banks ───────────────────────────────
+const EXCUSE_ROASTS = {
+  sick: [
+    "Sick on a workout day? Suspicious timing bro 🤔",
+    "Miraculously recovers by lunch time every single time 🏥",
+    "The illness that only shows up at 5:30am on run days 🎭",
+    "WebMD diagnosis: chronic YPCO syndrome 📋",
+    "Not feeling well = not feeling like working out. We see you 👀",
+  ],
+  poop: [
+    "Poop issues. The classic. The timeless excuse 💩",
+    "Your stomach knew the route was going to be hilly 💩😂",
+    "The runs... but not the kind we planned 💩🏃",
+    "Gastric courage: 0. YPCO courage: 100 💩",
+    "Your gut has better cardio than you do 💩",
+    "Plot twist: the only running happening today was to the bathroom 💩",
+  ],
+  dinner: [
+    "Last night's biriyani > this morning's run. At least be honest 🍛",
+    "You fed your stomach more than your Strava last night 🍖",
+    "The dinner was heavy. The guilt is heavier. 🍽️",
+    "A true athlete eats light the night before. Just saying. 🥗",
+    "The restaurant deserves more Strava kudos than you today 🍽️🏅",
+    "Carb loading taken to a whole new level 🍚💀",
+  ],
+  function: [
+    "A function you were 'not aware of'. Sure bro. Sure. 🏠😂",
+    "Suddenly has a function EVERY time there's a 6am run 🤔",
+    "The function had better attendance than your workout ever did 🎉",
+    "Family function > group run. We respect it. We also roast it. 🏠🔥",
+    "Convenient timing on that function huh 📅",
+  ],
+  bike: [
+    "Bubble bathing at 5:30am. Living your best life 🛁",
+    "The bike has a flat. Coincidentally only on run days. 🚲",
+    "Bike issue = too comfortable in bed issue 🛏️🚲",
+    "The bubble bath was longer than your longest ride 🛁🚴",
+    "Your bike called. It's fine. You're just not. 🚲😂",
+    "Technical difficulties: bike issue, motivation issue, alarm issue... 🔧",
+  ],
+  niggle: [
+    "Niggle in body parts 😂 Which part today? The 'get out of bed' muscle? 🦵",
+    "The niggle that specifically attacks on group run days 🦵🎯",
+    "Body parts niggling but somehow fine for Netflix and dinner later 📺",
+    "Every athlete has niggles. Champions run through them. Just saying. 🦵💪",
+    "The knee that's fine on weekdays but acts up every Saturday morning 🦵😅",
+    "Consulting Dr. Bed rest again I see 🛏️🩺",
+  ],
+  other: [
+    "Couldn't even be bothered to pick a real excuse 😂",
+    "The creativity of the excuse matches the creativity of your training 🎨",
+    "A mystery excuse for a mysterious disappearance 🕵️",
+    "At least the others had the decency to give a reason 😤",
+    "The audacity of a custom excuse deserves a custom roast 🔥",
+  ],
+};
+
+const GENERIC_ROASTS = [
   "Bro really set an alarm just to disappoint everyone 😴",
   "The audacity to say YPCO at 5:30am 🌅💀",
   "Your running shoes are filing for abandonment 👟😭",
@@ -17,8 +85,9 @@ const YPCO_AUTO_ROASTS = [
   "You were the weakest link. Goodbye. 👋",
 ];
 
-function getAutoRoast() {
-  return YPCO_AUTO_ROASTS[Math.floor(Math.random() * YPCO_AUTO_ROASTS.length)];
+function getAutoRoast(excuseId) {
+  const bank = EXCUSE_ROASTS[excuseId] || GENERIC_ROASTS;
+  return bank[Math.floor(Math.random() * bank.length)];
 }
 
 function timeAgo(ts) {
@@ -99,7 +168,7 @@ function renderYPCOWall(ypcos) {
           💬 "${escapeHtml(y.reason)}"
         </div>
 
-        <div class="auto-roast">🔥 ${getAutoRoast()}</div>
+        <div class="auto-roast">🔥 ${getAutoRoast(y.excuseId)}</div>
 
         <div class="ypco-reactions">${reactionHtml}</div>
 
@@ -134,11 +203,20 @@ async function loadYPCOWall() {
 
 // ── Declare YPCO ──────────────────────────────────────────────
 async function declareYPCO() {
-  const event  = document.getElementById('ypco-event').value.trim();
-  const reason = document.getElementById('ypco-reason').value.trim();
+  const event     = document.getElementById('ypco-event').value.trim();
+  const excuseId  = document.querySelector('.excuse-chip.selected')?.dataset.excuse;
+  const freeText  = document.getElementById('ypco-freetext')?.value.trim();
 
   if (!event) { showToast('Tell us what you bailed on 😤', 'error'); return; }
-  if (!reason) { showToast('Give us an excuse at least 😂', 'error'); return; }
+  if (!excuseId) { showToast('Pick an excuse — we know you have one 😂', 'error'); return; }
+
+  // Build the reason string
+  const excuseLabel = YPCO_EXCUSES.find(e => e.id === excuseId)?.label || excuseId;
+  const reason = excuseId === 'other' && freeText
+    ? freeText
+    : excuseId === 'other'
+      ? 'No further details given 🤷'
+      : excuseLabel;
 
   const btn = document.getElementById('btn-declare-ypco');
   btn.disabled = true;
@@ -148,7 +226,7 @@ async function declareYPCO() {
     const res = await fetch('/api/ypco', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ event, reason }),
+      body: JSON.stringify({ event, reason, excuseId }),
     });
     const data = await res.json();
 
@@ -157,7 +235,9 @@ async function declareYPCO() {
     } else {
       showToast('🏳️ YPCO declared. Shame on you! 😂', 'success');
       document.getElementById('ypco-event').value = '';
-      document.getElementById('ypco-reason').value = '';
+      if (document.getElementById('ypco-freetext')) document.getElementById('ypco-freetext').value = '';
+      document.querySelectorAll('.excuse-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('ypco-freetext-row').style.display = 'none';
       document.getElementById('ypco-form').style.display = 'none';
       await loadYPCOWall();
     }
@@ -216,12 +296,40 @@ async function sendRoast(date, athleteId, inputId, btn) {
 // ── Toggle YPCO form ──────────────────────────────────────────
 document.getElementById('btn-show-ypco-form')?.addEventListener('click', () => {
   const form = document.getElementById('ypco-form');
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  const isHidden = form.style.display === 'none';
+  form.style.display = isHidden ? 'block' : 'none';
+
+  // Render excuse chips on first open
+  if (isHidden) renderExcuseChips();
 });
+
+function renderExcuseChips() {
+  const container = document.getElementById('excuse-chips');
+  if (!container || container.children.length > 0) return; // already rendered
+
+  container.innerHTML = YPCO_EXCUSES.map(e => `
+    <button class="excuse-chip" data-excuse="${e.id}" onclick="selectExcuse(this, '${e.id}')">
+      ${e.label}
+    </button>`).join('');
+}
+
+function selectExcuse(chip, excuseId) {
+  // Deselect all, select this one
+  document.querySelectorAll('.excuse-chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+
+  // Show free text only for 'other'
+  const freetextRow = document.getElementById('ypco-freetext-row');
+  freetextRow.style.display = excuseId === 'other' ? 'flex' : 'none';
+  if (excuseId === 'other') {
+    document.getElementById('ypco-freetext')?.focus();
+  }
+}
 
 document.getElementById('btn-declare-ypco')?.addEventListener('click', declareYPCO);
 
 // Expose for inline onclick handlers
-window.reactYPCO = reactYPCO;
-window.sendRoast = sendRoast;
+window.reactYPCO    = reactYPCO;
+window.sendRoast    = sendRoast;
 window.loadYPCOWall = loadYPCOWall;
+window.selectExcuse = selectExcuse;
