@@ -19,18 +19,18 @@
       <span class="feature-chip">🚴 Cycling</span>
       <span class="feature-chip">🏊 Swimming</span>
       <span class="feature-chip">🏋️ Gym</span>
-      <span class="feature-chip">🏳️ YPCO</span>
+      <span class="feature-chip">⛰️ Trek Goal</span>
       <span class="feature-chip">🔥 Roasts</span>
     </div>
-    <a href="/auth/login" class="btn-strava">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
-      </svg>
-      Connect with Strava
+    <a href="/auth/login" class="btn-connect-strava" aria-label="Connect with Strava">
+      <img src="/img/btn-connect-strava.svg" alt="Connect with Strava" height="48" />
     </a>
     <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--muted)">
       Your data is fetched live from Strava. We only store your weekly scores.
     </p>
+    <div class="powered-by">
+      <img src="/img/powered-by-strava.svg" alt="Powered by Strava" height="24" />
+    </div>
   </div>
 
   <!-- ── App Shell (logged in) ─────────────────────────────── -->
@@ -296,6 +296,12 @@
       </div>
 
     </main>
+
+    <footer class="app-footer">
+      <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer">
+        <img src="/img/powered-by-strava.svg" alt="Powered by Strava" height="22" />
+      </a>
+    </footer>
   </div>
 
   <!-- Toast -->

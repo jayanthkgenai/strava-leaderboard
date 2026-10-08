@@ -1043,3 +1043,32 @@ select.form-input { cursor: pointer; }
 .report-goal-sub { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
 
 .report-footer { text-align: center; color: #666; font-size: 0.75rem; margin-top: 1.5rem; }
+
+/* ── Official Strava Connect button ───────────────────────── */
+.btn-connect-strava {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 24px;
+  transition: transform 0.1s, box-shadow 0.15s;
+  text-decoration: none;
+}
+.btn-connect-strava:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(252, 76, 2, 0.4);
+}
+.btn-connect-strava:active { transform: scale(0.98); }
+.btn-connect-strava img { display: block; height: 48px; }
+
+/* Powered by Strava attribution */
+.powered-by { margin-top: 2rem; opacity: 0.9; }
+.powered-by img { display: block; margin: 0 auto; }
+
+.app-footer {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+.app-footer a { opacity: 0.75; transition: opacity 0.15s; }
+.app-footer a:hover { opacity: 1; }
