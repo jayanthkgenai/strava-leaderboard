@@ -1073,3 +1073,93 @@ select.form-input { cursor: pointer; }
 .app-footer a { opacity: 0.75; transition: opacity 0.15s; }
 .app-footer a:hover { opacity: 1; }
 .app-footer img { height: 22px; width: auto; display: block; }
+
+/* ── Mobile responsive (comprehensive) ────────────────────── */
+@media (max-width: 768px) {
+  /* Nav wraps and scrolls horizontally */
+  nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .nav-brand {
+    font-size: 1rem;
+    margin-right: auto;
+  }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    gap: 0.2rem;
+  }
+  .nav-links::-webkit-scrollbar { height: 0; }
+  .nav-link {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-user { gap: 0.4rem; }
+  .nav-name { display: none; }
+}
+
+@media (max-width: 640px) {
+  main { padding: 0.9rem; }
+
+  /* Page heroes stack vertically */
+  .page-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+  }
+  .page-hero .btn-strava-sm { width: 100%; justify-content: center; }
+  .page-title { font-size: 1.2rem; }
+
+  /* Profile header stacks */
+  .profile-header { flex-wrap: wrap; }
+  .profile-header .btn-strava-sm { width: 100%; justify-content: center; margin-top: 0.5rem; }
+
+  /* Stats grid: 2 columns on phones */
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .stat-value { font-size: 1.4rem; }
+
+  /* Filters full width */
+  .filter-controls { width: 100%; }
+  .filter-select { flex: 1; }
+
+  /* Leaderboard: hide less-critical columns, tighten */
+  .lb-table th, .lb-table td { padding: 0.5rem 0.4rem; font-size: 0.82rem; }
+  .lb-table .col-elevation,
+  .lb-table .col-time,
+  .lb-table .col-disciplines { display: none; }
+  .lb-avatar { width: 26px; height: 26px; }
+
+  /* Activity rows: keep distance, hide extra stats */
+  .activity-stats { gap: 0.75rem; }
+  .activity-stats > div:nth-child(3) { display: none; }
+
+  /* Toggle groups wrap */
+  .lb-controls, .roast-controls { gap: 0.5rem; }
+  .toggle-group { flex-wrap: wrap; }
+  .toggle-btn { font-size: 0.8rem; padding: 0.3rem 0.7rem; }
+
+  /* Goal page */
+  .goal-big-number { font-size: 2.2rem; }
+
+  /* Points table */
+  .points-table th, .points-table td { padding: 0.5rem 0.6rem; font-size: 0.82rem; }
+
+  /* Landing */
+  .landing { padding: 1.5rem 1rem; }
+  .landing h1 { font-size: 2rem; }
+  .features { gap: 0.4rem; }
+  .feature-chip { font-size: 0.78rem; padding: 0.35rem 0.75rem; }
+}
+
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .activity-stats { display: none; }
+}
