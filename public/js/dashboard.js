@@ -147,7 +147,7 @@ async function downloadReport() {
         <img src="${window.App.athlete.avatar || ''}" class="report-avatar" crossorigin="anonymous" />
         <div>
           <div class="report-name">${escapeHtml(window.App.athlete.name)}</div>
-          <div class="report-sub">StravaBoard Progress Report</div>
+          <div class="report-sub">Maasakkondu betta Progress Report</div>
         </div>
         <div class="report-logo">🏅</div>
       </div>
@@ -163,7 +163,7 @@ async function downloadReport() {
         <div class="report-track"><div class="report-fill" style="width:${prog.pct}%"></div></div>
         <div class="report-goal-sub">${prog.qualified ? 'Trek unlocked! 🏔️' : `${prog.remaining} points to qualify`}</div>
       </div>
-      <div class="report-footer">stravaboard · ${new Date().toLocaleDateString()}</div>`;
+      <div class="report-footer">Maasakkondu betta · ${new Date().toLocaleDateString()}</div>`;
 
     document.body.appendChild(card);
 
