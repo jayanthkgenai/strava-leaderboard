@@ -1057,11 +1057,11 @@ select.form-input { cursor: pointer; }
   box-shadow: 0 4px 20px rgba(252, 76, 2, 0.4);
 }
 .btn-connect-strava:active { transform: scale(0.98); }
-.btn-connect-strava img { display: block; height: 48px; }
+.btn-connect-strava img { display: block; height: 48px; width: auto; }
 
 /* Powered by Strava attribution */
 .powered-by { margin-top: 2rem; opacity: 0.9; }
-.powered-by img { display: block; margin: 0 auto; }
+.powered-by img { display: block; margin: 0 auto; height: 24px; width: auto; }
 
 .app-footer {
   display: flex;
@@ -1072,3 +1072,4 @@ select.form-input { cursor: pointer; }
 }
 .app-footer a { opacity: 0.75; transition: opacity 0.15s; }
 .app-footer a:hover { opacity: 1; }
+.app-footer img { height: 22px; width: auto; display: block; }
