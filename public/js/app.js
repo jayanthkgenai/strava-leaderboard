@@ -33,7 +33,8 @@ function navigateTo(page) {
   history.pushState({ page }, '', `/${page}`);
 
   if (page === 'leaderboard') window.loadLeaderboard?.();
-  if (page === 'ypco')        window.loadYPCOWall?.();
+  if (page === 'goal')        window.loadGoal?.();
+  if (page === 'points')      window.loadPoints?.();
   if (page === 'events')      window.loadEvents?.();
   if (page === 'roast')       window.loadRoastPage?.();
 }
@@ -123,7 +124,7 @@ async function init() {
 
   // Determine which page to show
   const path = window.location.pathname.replace('/', '') || 'dashboard';
-  navigateTo(['dashboard', 'leaderboard', 'ypco', 'roast', 'events'].includes(path) ? path : 'dashboard');
+  navigateTo(['dashboard', 'leaderboard', 'goal', 'points', 'roast', 'events'].includes(path) ? path : 'dashboard');
 
   // Load dashboard data
   window.loadDashboard?.();

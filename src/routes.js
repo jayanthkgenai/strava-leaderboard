@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const strava = require('./strava');
-const { summarizeActivities } = require('./scoring');
+const { summarizeActivities, SPORT_SCORES } = require('./scoring');
 const redis = require('./redis');
+
+// Kumara Parvatha trek qualification goal (all-time points)
+const KP_GOAL = 1000;
 
 // Middleware: require login
 function requireAuth(req, res, next) {
@@ -39,6 +42,63 @@ router.get('/api/recent', requireAuth, async (req, res) => {
   try {
     const activities = await strava.getRecentActivities(req.session);
     res.json(activities);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/activities?period=week|month|all&type=Run|Ride|... - filtered activities
+router.get('/api/activities', requireAuth, async (req, res) => {
+  try {
+    const period = req.query.period || 'month';
+    let activities;
+    if (period === 'week')      activities = await strava.getWeeklyActivities(req.session);
+    else if (period === 'all')  activities = await strava.getAllTimeActivities(req.session);
+    else                        activities = await strava.getMonthlyActivities(req.session);
+
+    // Optional type filter (matches sport_type or type)
+    const type = req.query.type;
+    if (type && type !== 'all') {
+      activities = activities.filter(a => (a.sport_type === type || a.type === type));
+    }
+
+    // Sort newest first
+    activities.sort((a, b) => new Date(b.start_date_local) - new Date(a.start_date_local));
+
+    res.json({ period, type: type || 'all', activities });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/scoring - points reference table (for transparency page)
+router.get('/api/scoring', requireAuth, (req, res) => {
+  const table = Object.entries(SPORT_SCORES).map(([key, cfg]) => ({
+    sport: key,
+    label: cfg.label,
+    points: cfg.pts,
+    unit: cfg.unit,
+  }));
+  res.json({ scoring: table, goal: KP_GOAL });
+});
+
+// GET /api/progress - this athlete's progress toward the Kumara Parvatha goal
+router.get('/api/progress', requireAuth, async (req, res) => {
+  try {
+    const entry = await redis.getUserEntry(req.session.athlete.id);
+    const allTimePoints = entry?.alltime?.totalPoints || 0;
+    const pct = Math.min(100, Math.round((allTimePoints / KP_GOAL) * 1000) / 10);
+
+    res.json({
+      goal: KP_GOAL,
+      points: allTimePoints,
+      pct,
+      qualified: allTimePoints >= KP_GOAL,
+      remaining: Math.max(0, Math.round((KP_GOAL - allTimePoints) * 10) / 10),
+      lastSync: entry?.updatedAt || null,
+      byType: entry?.alltime?.byType || {},
+      stats: entry?.alltime || null,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -49,7 +49,11 @@ app.get('/leaderboard', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.get('/ypco', (req, res) => {
+app.get('/goal', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+app.get('/points', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 

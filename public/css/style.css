@@ -816,3 +816,230 @@ select.form-input { cursor: pointer; }
   font-weight: 600;
   transform: scale(1.03);
 }
+
+/* ── Dashboard refinements ────────────────────────────────── */
+.profile-header { gap: 1rem; }
+.profile-text { flex: 1; min-width: 0; }
+.profile-header .btn-strava-sm { flex-shrink: 0; }
+
+/* Trek goal mini-banner on dashboard */
+.goal-banner {
+  background: linear-gradient(135deg, #0a1a12, #1a1a1a);
+  border: 1px solid #1a3d2a;
+  border-radius: var(--radius);
+  padding: 0.9rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+.goal-banner-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.goal-banner-status { color: var(--green); font-weight: 600; font-size: 0.85rem; }
+
+/* Progress bar */
+.progress-track {
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-track.big { height: 16px; margin: 1rem 0 0.5rem; }
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+/* ── Filter controls ──────────────────────────────────────── */
+.filter-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.filter-select:focus { outline: none; border-color: var(--orange); }
+
+.filter-summary {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.filter-summary span { color: var(--text); font-weight: 600; }
+
+/* ── Trek Goal Page ───────────────────────────────────────── */
+.goal-hero   { background: linear-gradient(135deg, #0a1a12, #1a1a1a); border-color: #1a3d2a; }
+.points-hero { background: linear-gradient(135deg, #1a1500, #1a1a1a); border-color: #3d3200; }
+
+.goal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.goal-big-number { font-size: 3rem; font-weight: 800; line-height: 1; }
+.goal-of { font-size: 1.25rem; color: var(--muted); font-weight: 500; }
+.goal-pct { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+.goal-qualified {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid var(--green);
+  border-radius: var(--radius);
+  color: var(--green);
+}
+.goal-remaining {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: rgba(252,76,2,0.08);
+  border: 1px solid var(--orange);
+  border-radius: var(--radius);
+  color: var(--orange);
+}
+
+.breakdown-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1.25rem;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.breakdown-row:last-child { border-bottom: none; }
+
+.goal-tip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 1.5rem;
+}
+.goal-tip strong { color: var(--text); }
+
+/* ── Points Reference Page ────────────────────────────────── */
+.points-explainer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.points-explainer strong { color: var(--text); }
+
+.points-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.points-table th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.points-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.points-table tr:last-child td { border-bottom: none; }
+.points-table tr:hover td { background: var(--surface2); }
+
+.pts-pill {
+  background: rgba(252,76,2,0.12);
+  color: var(--orange);
+  border-radius: 99px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.points-examples {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+.example-row {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.example-row:last-child { border-bottom: none; }
+.example-row strong { color: var(--orange); }
+
+/* ── Downloadable Report Card ─────────────────────────────── */
+.report-card {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 480px;
+  background: linear-gradient(160deg, #1a1a1a, #0f0f0f);
+  border: 1px solid var(--orange);
+  border-radius: 20px;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #f0f0f0;
+}
+.report-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.report-avatar { width: 56px; height: 56px; border-radius: 50%; border: 3px solid var(--orange); object-fit: cover; }
+.report-name { font-size: 1.4rem; font-weight: 800; }
+.report-sub { color: var(--orange); font-size: 0.85rem; font-weight: 600; }
+.report-logo { margin-left: auto; font-size: 2.5rem; }
+
+.report-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+.report-stat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+.rs-val { font-size: 1.6rem; font-weight: 800; }
+.rs-lbl { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+
+.report-goal {
+  background: rgba(252,76,2,0.08);
+  border: 1px solid var(--orange);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.report-goal-title { font-weight: 700; margin-bottom: 0.5rem; }
+.report-goal-pts { font-size: 1.5rem; font-weight: 800; color: var(--orange); margin-bottom: 0.75rem; }
+.report-track { height: 12px; background: #2e2e2e; border-radius: 99px; overflow: hidden; }
+.report-fill { height: 100%; background: var(--orange); border-radius: 99px; }
+.report-goal-sub { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+
+.report-footer { text-align: center; color: #666; font-size: 0.75rem; margin-top: 1.5rem; }
